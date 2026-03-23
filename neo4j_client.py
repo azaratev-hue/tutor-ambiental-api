@@ -35,3 +35,27 @@ class Neo4jClient:
 
         with self.driver.session() as session:
             session.run(query, usuario_id=usuario_id, conceptos=conceptos)
+            
+    def actualizar_nivel_usuario(self, usuario_id):
+        query = """
+        MATCH (u:Usuario {id: $usuario_id})
+        OPTIONAL MATCH (u)-[:APRENDIO]->(c:Concepto)
+        WITH u, COUNT(DISTINCT c) AS total_conceptos
+    
+        SET u.nivel_general =
+            CASE
+                WHEN total_conceptos <= 5 THEN 'basico'
+                WHEN total_conceptos <= 12 THEN 'intermedio'
+                ELSE 'avanzado'
+            END
+    
+        RETURN u.nivel_general AS nivel, total_conceptos
+        """
+    
+        with self.driver.session() as session:
+            result = session.run(query, usuario_id=usuario_id)
+            record = result.single()
+            return {
+                "nivel": record["nivel"],
+                "total_conceptos": record["total_conceptos"]
+            }
