@@ -33,17 +33,17 @@ def preguntar(data: Pregunta):
         "pregunta": data.pregunta,
         "usuario_id": data.usuario_id
     })
-    # 🔥 EXTRAER DATOS
+
+    # 🔥 EXTRAER conceptos del resultado
     conceptos = result.get("conceptos", [])
-    usuario_id = data.usuario_id
 
     # 🔥 GUARDAR EN NEO4J
     if conceptos:
-        neo4j_client.guardar_aprendizaje(usuario_id, conceptos)
-        
+        neo4j_client.guardar_aprendizaje(data.usuario_id, conceptos)
+
     return {
         "respuesta": result.get("respuesta"),
         "nivel": result.get("nivel"),
-        "conceptos": result.get("conceptos"),
+        "conceptos": conceptos,
         "recomendaciones": result.get("recomendaciones")
     }
