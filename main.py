@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from tutor_v06 import graph
 from dotenv import load_dotenv
 from neo4j_client import Neo4jClient
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
@@ -16,6 +17,13 @@ neo4j_client = Neo4jClient()
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class Pregunta(BaseModel):
     pregunta: str
