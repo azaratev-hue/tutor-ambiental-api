@@ -7,18 +7,15 @@ Created on Sun Mar 22 23:16:36 2026
 from neo4j import GraphDatabase
 import os
 
+driver = GraphDatabase.driver(
+    os.getenv("NEO4J_URI"),
+    auth=(os.getenv("NEO4J_USER"), os.getenv("NEO4J_PASSWORD"))
+)
 
 class Neo4jClient:
 
     def __init__(self):
-        self.uri = os.getenv("NEO4J_URI")
-        self.user = os.getenv("NEO4J_USER")
-        self.password = os.getenv("NEO4J_PASSWORD")
-
-        self.driver = GraphDatabase.driver(
-            self.uri,
-            auth=(self.user, self.password)
-        )
+        self.driver = driver
 
     # ===============================
     # GUARDAR APRENDIZAJE
