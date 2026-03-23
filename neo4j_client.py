@@ -9,7 +9,10 @@ import os
 
 driver = GraphDatabase.driver(
     os.getenv("NEO4J_URI"),
-    auth=(os.getenv("NEO4J_USER"), os.getenv("NEO4J_PASSWORD"))
+    auth=(os.getenv("NEO4J_USER"), os.getenv("NEO4J_PASSWORD")),
+    max_connection_lifetime=300,
+    connection_timeout=30,
+    max_connection_pool_size=10
 )
 
 class Neo4jClient:
