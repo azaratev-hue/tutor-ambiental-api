@@ -25,11 +25,7 @@ TOP_K = 5
 USUARIO_ID = "u001"
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-driver = GraphDatabase.driver(
-    os.getenv("NEO4J_URI"),
-    auth=(os.getenv("NEO4J_USER"), os.getenv("NEO4J_PASSWORD"))
-)
+from neo4j_client import driver
 # =========================================================
 # UTILIDADES
 # =========================================================
